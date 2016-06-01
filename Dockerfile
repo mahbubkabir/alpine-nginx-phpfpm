@@ -1,4 +1,6 @@
-FROM alpine:3.3
+FROM alpine:latest
+
+RUN echo 'http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories
 
 RUN apk --update add \
   nginx \
@@ -21,9 +23,20 @@ RUN apk --update add \
   php-bcmath \
   php-dom \
   php-xmlreader \
+  php-xmlreader \
+  php-xml \
+  php-pear \
+  php-xdebug \
   curl \
   supervisor \
   && rm -rf /var/cache/apk/*
+
+
+RUN echo "zend_extension=xdebug.so" > /etc/php/conf.d/xdebug.ini \
+      && echo "xdebug.remote_enable=on" >> /etc/php/conf.d/xdebug.ini \
+      && echo "xdebug.remote_autostart=off" >> /etc/php/conf.d/xdebug.ini \
+      && echo "xdebug.remote_host=vmhost.quidco.local" >> /etc/php/conf.d/xdebug.ini \
+      && echo "xdebug.remote_port=9000" >> /etc/php/conf.d/xdebug.ini
 
 # install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
