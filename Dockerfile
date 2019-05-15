@@ -69,4 +69,6 @@ ADD nginx-supervisor.ini /etc/supervisor.d/nginx-supervisor.ini
 RUN mkdir /app
 WORKDIR /app
 
+EXPOSE 80 9000
+
 CMD ["/usr/bin/supervisord"]
